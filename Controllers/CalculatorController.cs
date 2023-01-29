@@ -1,3 +1,4 @@
+using FluentResults.Extensions.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace answer_is_in_the_result.Controllers;
@@ -17,13 +18,8 @@ public class CalculatorController : ControllerBase
     [HttpGet("divide/{a}/{b}")]
     public async Task<IActionResult> Divide(double a, double b)
     {
-        var result = await _calculatorService.Divide(a, b);
+        var result = _calculatorService.Divide(a, b);
 
-        if (result.IsError)
-        {
-            return BadRequest(result.Error);
-        }
-
-        return Ok(result.Value);
+        return result.ToActionResult();
     }
 }
